@@ -3,8 +3,8 @@ package coordinates;
 import static java.lang.Math.abs;
 
 public class Coordinates {
-    Row x;
-    Column y;
+    public Row x;
+    public Column y;
 
     public Coordinates(Row x, Column y) {
         this.x = x;
