@@ -30,4 +30,12 @@ public abstract class Ship {
         return secondCoords.y.getValue();
     }
 
+    public Coordinates getFirstCoords() {
+        return firstCoords;
+    }
+
+    public Coordinates getSecondCoords() {
+        return secondCoords;
+    }
+
 }
