@@ -12,7 +12,7 @@ public class Coordinates {
     }
 
     public int calculateDistanceTo(Coordinates secondCoords) {
-        int distance = 0;
+        int distance;
         int x1 = x.getValue();
         int y1 = y.getValue();
         int x2 = secondCoords.x.getValue();

@@ -18,7 +18,7 @@ public enum Row {
     }
 
     public int getValue() {
-        return value - 1;
+        return value;
     }
 }
 

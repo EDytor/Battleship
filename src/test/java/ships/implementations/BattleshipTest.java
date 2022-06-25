@@ -29,9 +29,9 @@ class BattleshipTest {
         // When
         // Then
         Battleship battleship = new Battleship(firstcoords, secondcoords);
-        assertEquals(2, battleship.getColumnOfFirst());
-        assertEquals(5, battleship.getColumnOfSecond());
-        assertEquals(1, battleship.getRowOfFirst());
-        assertEquals(1, battleship.getRowOfSecond());
+        assertEquals(Row.B, battleship.getFirstCoords().x);
+        assertEquals(3, firstcoords.y.getValue());
+        assertEquals(Row.B, battleship.getSecondCoords().x);
+        assertEquals(6, secondcoords.y.getValue());
     }
 }

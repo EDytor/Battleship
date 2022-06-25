@@ -28,9 +28,9 @@ class SubmarineTest {
         // When
         // Then
         Submarine submarine = new Submarine(firstcoords, secondcoords);
-        assertEquals(2, submarine.getColumnOfFirst());
-        assertEquals(4, submarine.getColumnOfSecond());
-        assertEquals(1, submarine.getRowOfFirst());
-        assertEquals(1, submarine.getRowOfSecond());
+        assertEquals(Row.B, submarine.getFirstCoords().x);
+        assertEquals(3, firstcoords.y.getValue());
+        assertEquals(Row.B, submarine.getSecondCoords().x);
+        assertEquals(5, secondcoords.y.getValue());
     }
 }

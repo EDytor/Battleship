@@ -30,9 +30,9 @@ class CruiserTest {
         // When
         // Then
         Cruiser cruiser = new Cruiser(firstcoords, secondcoords);
-        assertEquals(0, cruiser.getColumnOfFirst());
-        assertEquals(0, cruiser.getColumnOfSecond());
-        assertEquals(0, cruiser.getRowOfFirst());
-        assertEquals(2, cruiser.getRowOfSecond());
+        assertEquals(Row.A, cruiser.getFirstCoords().x);
+        assertEquals(1, firstcoords.y.getValue());
+        assertEquals(Row.C, cruiser.getSecondCoords().x);
+        assertEquals(1, secondcoords.y.getValue());
     }
 }

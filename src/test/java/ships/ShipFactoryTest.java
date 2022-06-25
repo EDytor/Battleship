@@ -4,6 +4,7 @@ import coordinates.Column;
 import coordinates.Coordinates;
 import coordinates.Row;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -62,5 +63,20 @@ class ShipFactoryTest {
                         "Destroyer",
                         Destroyer.class
                 ));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenParametersAreNotCorrect() {
+        // Given
+        // When
+        // Then
+        Assertions.assertThatThrownBy(() -> ShipFactory.produceShip("Sailboat",
+                                new Pair<>(new Coordinates(Row.A, new Column(1)),
+                                        new Coordinates(Row.A, new Column(5))
+                                )
+                        )
+                )
+                .as("Should throw exception when coordinates are incorrect!")
+                .hasMessageContaining("Incorrect length");
     }
 }

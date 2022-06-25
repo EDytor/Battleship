@@ -5,7 +5,7 @@ import ships.implementations.*;
 import utils.Pair;
 
 public class ShipFactory {
-    static Ship produceShip(String nameOfShip, Pair<Coordinates> pairOfCoords) {
+    public static Ship produceShip(String nameOfShip, Pair<Coordinates> pairOfCoords) {
         switch (nameOfShip) {
             case "Destroyer":
                 return new Destroyer(pairOfCoords.getFirstElement(), pairOfCoords.getSecondElement());

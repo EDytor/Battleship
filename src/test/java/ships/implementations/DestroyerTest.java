@@ -29,9 +29,9 @@ class DestroyerTest {
         // When
         // Then
         Destroyer destroyer = new Destroyer(firstcoords, secondcoords);
-        assertEquals(4, destroyer.getColumnOfFirst());
-        assertEquals(4, destroyer.getColumnOfSecond());
-        assertEquals(0, destroyer.getRowOfFirst());
-        assertEquals(1, destroyer.getRowOfSecond());
+        assertEquals(Row.A, destroyer.getFirstCoords().x);
+        assertEquals(5, firstcoords.y.getValue());
+        assertEquals(Row.B, destroyer.getSecondCoords().x);
+        assertEquals(5, secondcoords.y.getValue());
     }
 }

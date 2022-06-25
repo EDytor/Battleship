@@ -7,7 +7,7 @@ public class Column {
         if (value > 10 || value < 1) {
             throw new RuntimeException("Error! Wrong ship location! Try again:");
         } else
-            this.value = value - 1;
+            this.value = value;
     }
 
     public int getValue() {
