@@ -76,7 +76,7 @@ class ShipFactoryTest {
                                 )
                         )
                 )
-                .as("Should throw exception when coordinates are incorrect!")
-                .hasMessageContaining("Incorrect length");
+                .as("Should throw exception when data are incorrect!")
+                .hasMessageContaining("Incorrect ship details");
     }
 }
