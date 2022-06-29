@@ -27,8 +27,8 @@ class DestroyerTest {
         Coordinates firstcoords = new Coordinates(Row.A, new Column(5));
         Coordinates secondcoords = new Coordinates(Row.B, new Column(5));
         // When
-        // Then
         Destroyer destroyer = new Destroyer(firstcoords, secondcoords);
+        // Then
         assertEquals(Row.A, destroyer.getFirstCoords().x);
         assertEquals(5, firstcoords.y.getValue());
         assertEquals(Row.B, destroyer.getSecondCoords().x);

@@ -28,8 +28,8 @@ class CruiserTest {
         Coordinates firstcoords = new Coordinates(Row.A, new Column(1));
         Coordinates secondcoords = new Coordinates(Row.C, new Column(1));
         // When
-        // Then
         Cruiser cruiser = new Cruiser(firstcoords, secondcoords);
+        // Then
         assertEquals(Row.A, cruiser.getFirstCoords().x);
         assertEquals(1, firstcoords.y.getValue());
         assertEquals(Row.C, cruiser.getSecondCoords().x);

@@ -5,6 +5,7 @@ public enum Field {
     SHIP,
     MISSED,
     HIT,
-    BLOCKED
+    BLOCKED,
+    EXCLUDED
 }
 

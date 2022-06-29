@@ -27,8 +27,8 @@ class BattleshipTest {
         Coordinates firstcoords = new Coordinates(Row.B,new Column(3));
         Coordinates secondcoords = new Coordinates(Row.B,new Column(6));
         // When
-        // Then
         Battleship battleship = new Battleship(firstcoords, secondcoords);
+        // Then
         assertEquals(Row.B, battleship.getFirstCoords().x);
         assertEquals(3, firstcoords.y.getValue());
         assertEquals(Row.B, battleship.getSecondCoords().x);
