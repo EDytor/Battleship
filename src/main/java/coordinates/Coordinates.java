@@ -3,8 +3,8 @@ package coordinates;
 import static java.lang.Math.abs;
 
 public class Coordinates {
-    Row x;
-    Column y;
+    public Row x;
+    public Column y;
 
     public Coordinates(Row x, Column y) {
         this.x = x;
@@ -12,7 +12,7 @@ public class Coordinates {
     }
 
     public int calculateDistanceTo(Coordinates secondCoords) {
-        int distance = 0;
+        int distance;
         int x1 = x.getValue();
         int y1 = y.getValue();
         int x2 = secondCoords.x.getValue();

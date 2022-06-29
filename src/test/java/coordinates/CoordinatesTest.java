@@ -37,7 +37,9 @@ class CoordinatesTest {
     private static Stream<Arguments> correctCoordinatesProvider() {
         return Stream.of(
                 Arguments.of(new Coordinates(Row.A, new Column(1)), new Coordinates(Row.A, new Column(5)), 4),
-                Arguments.of(new Coordinates(Row.A, new Column(1)), new Coordinates(Row.E, new Column(1)), 4)
+                Arguments.of(new Coordinates(Row.A, new Column(1)), new Coordinates(Row.C, new Column(1)), 2),
+                Arguments.of(new Coordinates(Row.A, new Column(2)), new Coordinates(Row.A, new Column(3)), 1),
+                Arguments.of(new Coordinates(Row.G, new Column(2)), new Coordinates(Row.D, new Column(2)), 3)
         );
     }
 }

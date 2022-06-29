@@ -17,7 +17,7 @@ class ColumnTest {
     @Test
     void shouldThrowExceptionWhenColumnToLow() {
         // Given
-        final int tooLowColumn = 0;
+        final int tooLowColumn = -1;
         // When
         // Then
         Assertions.assertThatThrownBy(() -> new Column(tooLowColumn))
