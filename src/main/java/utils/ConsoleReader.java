@@ -2,11 +2,10 @@ package utils;
 
 import java.util.Scanner;
 
-public enum ConsoleReader {
-    INSTANCE;
+public class ConsoleReader {
+
     public String readUserInput() {
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.next();
-        return input;
+        return scanner.next();
     }
 }

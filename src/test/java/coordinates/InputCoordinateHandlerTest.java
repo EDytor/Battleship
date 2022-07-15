@@ -1,27 +1,50 @@
 package coordinates;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import utils.ConsoleReader;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.stream.Stream;
 
 class InputCoordinateHandlerTest {
 
-    ConsoleReader reader;
-
-    @BeforeEach
-    void setUp() {
-        this.reader = Mockito.mock(ConsoleReader.class);
+    @ParameterizedTest
+    @MethodSource("correctCoordinatesProvider")
+    void shouldProcessInputAndReturnCoordinates(Coordinates expectedCoordinates, String input) {
+        // When
+       Coordinates coordinates = new InputCoordinateHandler(new ConsoleReader()).prepareCoordinates(input);
+        // Then
+        Assertions.assertThat(coordinates)
+                .as("Should return correct coordinates")
+                .isEqualTo(expectedCoordinates);
     }
 
-    @Test
-    void should() {
-//        given
-//        Mockito.when(reader.readUserInput()).thenReturn("A1"); do testu z readerem
-//        when
-//        test parametryczny 2 
-        Coordinates coordinates = new InputCoordinateHandler(reader).prepareCoordinates("  A1");
+    private static Stream<Arguments> correctCoordinatesProvider() {
+        return Stream.of(
+                Arguments.of(new Coordinates(Row.A, new Column(2)), "A2"),
+                Arguments.of(new Coordinates(Row.A, new Column(10)), "  a 10 "),
+                Arguments.of(new Coordinates(Row.H, new Column(2)), "h 2 "),
+                Arguments.of(new Coordinates(Row.B, new Column(1)), "b   1 ")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("incorrectInputProvider")
+    void shouldReturnNullWhenInputIsWrong(String input) {
+        // Then
+        Assertions.assertThat((new InputCoordinateHandler(new ConsoleReader()).prepareCoordinates(input)))
+                .as("Should return null when input is not correct!")
+                .isEqualTo(null);
+
+    }
+    private static Stream<Arguments> incorrectInputProvider() {
+        return Stream.of(
+                Arguments.of(" a_fjn"),
+                Arguments.of("   .,a1"),
+                Arguments.of("q98 "),
+                Arguments.of("z1 ")
+        );
     }
 }
