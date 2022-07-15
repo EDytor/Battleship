@@ -31,9 +31,6 @@ class AircraftTest {
         // When
         // Then
         Aircraft aircraft = new Aircraft(firstcoords, secondcoords);
-        // When
-        Aircraft aircraft1 = new Aircraft(firstcoords, secondcoords);
-        // Then
         assertEquals(Row.B, aircraft.getFirstCoords().x);
         assertEquals(3, firstcoords.y.getValue());
         assertEquals(Row.B, aircraft.getSecondCoords().x);

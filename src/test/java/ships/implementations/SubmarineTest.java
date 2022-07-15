@@ -26,8 +26,8 @@ class SubmarineTest {
         Coordinates firstcoords = new Coordinates(Row.B,new Column(3));
         Coordinates secondcoords = new Coordinates(Row.B,new Column(5));
         // When
-        Submarine submarine = new Submarine(firstcoords, secondcoords);
         // Then
+        Submarine submarine = new Submarine(firstcoords, secondcoords);
         assertEquals(Row.B, submarine.getFirstCoords().x);
         assertEquals(3, firstcoords.y.getValue());
         assertEquals(Row.B, submarine.getSecondCoords().x);
