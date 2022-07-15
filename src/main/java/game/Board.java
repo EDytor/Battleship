@@ -1,18 +1,23 @@
 package game;
 
-import coordinates.Column;
 import coordinates.Coordinates;
-import coordinates.Row;
-import ships.ShipFactory;
 import utils.Field;
 import utils.Pair;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Board {
     int size = 11;
     Field[][] board;
+
+    public void setField(int x, int y, Field field) {
+        board[x][y] = field;
+    }
+
+    public Field getField(int x, int y) {
+
+        return board[x][y];
+    }
 
     Board() {
         board = new Field[size][size];
@@ -25,7 +30,7 @@ public class Board {
         }
     }
 
-    public void printingBoard() {
+    public void showTheFleet() {
         int column = 1;
         char a = 'A';
         System.out.print(" ");
@@ -54,55 +59,40 @@ public class Board {
         }
     }
 
-    private Pair<Coordinates> readCoordinates() {
-        Scanner scanner = new Scanner(System.in);
-        String enterCoordinate = scanner.next();
-        enterCoordinate = enterCoordinate.trim();
-        enterCoordinate = enterCoordinate. replace(" ","");
-        enterCoordinate = enterCoordinate.toUpperCase();
-        Row row = Row.valueOf(enterCoordinate.substring(0, 1));
-        Column column = new Column(Integer.parseInt(enterCoordinate.substring(1)));
-        Coordinates coordinate1 = new Coordinates(row, column);
-        String enterCoordinate2 = scanner.next();
-        scanner.nextLine();
-        enterCoordinate2 = enterCoordinate2.trim();
-        enterCoordinate2 = enterCoordinate2. replace(" ","");
-        enterCoordinate2 = enterCoordinate2.toUpperCase();
-        Row row2 = Row.valueOf(enterCoordinate2.substring(0, 1));
-        Column column2 = new Column(Integer.parseInt(enterCoordinate2.substring(1)));
-        Coordinates coordinate2 = new Coordinates(row2, column2);
-        return new Pair<>(coordinate1, coordinate2);
-    }
+    public void printingBoard() {
+        int column = 1;
+        char a = 'A';
+        System.out.print(" ");
+        for (int i = 1; i < size; i++) {
+            System.out.print(" " + column);
+            column++;
+        }
+        System.out.println();
 
-    public void deployShips() {
-        String[] namesOfShips = {"Aircraft Carrier", "Battleship", "Submarine", "Cruiser", "Destroyer"};
-        int[] shipsLength = {5, 4, 3, 3, 2};
-        for (int shipsToDeploy = 0; shipsToDeploy < 5; ) {
-            System.out.println();
-            System.out.printf("Enter the coordinates of the %s (%d cells):%n", namesOfShips[shipsToDeploy], shipsLength[shipsToDeploy]);
-            System.out.println();
-            try {
-                Pair<Coordinates> coordinates = readCoordinates();
-                ShipFactory.produceShip(namesOfShips[shipsToDeploy], coordinates);
-                deployOnTheBoard(coordinates);
-            } catch (Throwable e) {
-                System.out.println();
-                System.out.println("Error! Wrong length of the " + namesOfShips[shipsToDeploy] + "! Try again:");
-                System.out.println();
-                continue;
+        for (int line = 1; line < size; line++) {
+            for (int i = 0; i < size; i++) {
+                if (board[line][i] == Field.FREE || board[line][i] == Field.BLOCKED) {
+                    System.out.print("~ ");
+                } else if (board[line][i] == Field.MISSED) {
+                    System.out.print("M ");
+                } else if (board[line][i] == Field.HIT) {
+                    System.out.print("X ");
+                } else if (board[line][i] == Field.SHIP) {
+                    System.out.print("~ ");
+                } else if (board[line][i] == Field.EXCLUDED) {
+                    System.out.print(a + " ");
+                    a++;
+                }
             }
-            shipsToDeploy++;
-            printingBoard();
             System.out.println();
         }
     }
 
-    private boolean ifExist(int x1, int y1) {
-        return x1 < 10 && y1 < 10 && x1 > 0 && y1 > 0;
+    protected boolean ifExist(int x1, int y1) {
+        return x1 < 11 && y1 < 11 && x1 > 0 && y1 > 0;
     }
 
-    private void deployOnTheBoard(Pair<Coordinates> coordinatesPair) {
-
+    public void deployOnTheBoard(Pair<Coordinates> coordinatesPair) {
         int x1, x2, y1, y2;
         if (coordinatesPair.getFirstElement().x.getValue() < coordinatesPair.getSecondElement().x.getValue()) {
             x1 = coordinatesPair.getFirstElement().x.getValue();
@@ -122,15 +112,14 @@ public class Board {
             for (int i = y1; i <= y2; i++) {
                 if (board[x1][i] != Field.FREE) {
                     throw new RuntimeException("Error! Wrong ship location! Try again:");
-                }
-            }
-            for (int k = y1; k <= y2; k++) {
-                board[x1][k] = Field.SHIP;
-                if (ifExist(x1 - 1, k)) {
-                    board[x1 - 1][k] = Field.BLOCKED;
-                }
-                if (ifExist(x1 + 1, k)) {
-                    board[x1 + 1][k] = Field.BLOCKED;
+                } else {
+                    board[x1][i] = Field.SHIP;
+                    if (ifExist(x1 - 1, i)) {
+                        board[x1 - 1][i] = Field.BLOCKED;
+                    }
+                    if (ifExist(x1 + 1, i)) {
+                        board[x1 + 1][i] = Field.BLOCKED;
+                    }
                 }
             }
             if (ifExist(x1 - 1, y1 - 1)) {
@@ -146,7 +135,7 @@ public class Board {
                 board[x1 + 1][y2 + 1] = Field.BLOCKED;
             }
             if (ifExist(x1, y1 - 1)) {
-                board[x1][y2 - 1] = Field.BLOCKED;
+                board[x1][y1 - 1] = Field.BLOCKED;
             }
             if (ifExist(x1, y2 + 1)) {
                 board[x1][y2 + 1] = Field.BLOCKED;
@@ -156,37 +145,131 @@ public class Board {
             for (int i = x1; i <= x2; i++) {
                 if (board[i][y1] != Field.FREE) {
                     throw new RuntimeException("Error! Wrong ship location! Try again:");
-                }
-            }
-            for (int k = x1; k <= x2; k++) {
-                board[k][y1] = Field.SHIP;
-                if (ifExist(k, y1 - 1)) {
-                    board[x1 - 1][k] = Field.BLOCKED;
-                }
-                if (ifExist(k, y1 + 1)) {
-                    board[x1 + 1][k] = Field.BLOCKED;
+                } else {
+                    board[i][y1] = Field.SHIP;
+                    if (ifExist(i, y1 - 1)) {
+                        board[i][y1 - 1] = Field.BLOCKED;
+                    }
+                    if (ifExist(i, y1 + 1)) {
+                        board[i][y1 + 1] = Field.BLOCKED;
+                    }
                 }
             }
             if (ifExist(x1 - 1, y1 - 1)) {
                 board[x1 - 1][y1 - 1] = Field.BLOCKED;
             }
             if (ifExist(x1 - 1, y1 + 1)) {
-                board[x1 + 1][y1 - 1] = Field.BLOCKED;
+                board[x1 - 1][y1 + 1] = Field.BLOCKED;
             }
             if (ifExist(x2 + 1, y1 + 1)) {
-                board[x1 - 1][y2 + 1] = Field.BLOCKED;
+                board[x2 + 1][y1 + 1] = Field.BLOCKED;
             }
             if (ifExist(x2 + 1, y2 - 1)) {
-                board[x1 + 1][y2 + 1] = Field.BLOCKED;
+                board[x2 + 1][y2 - 1] = Field.BLOCKED;
             }
             if (ifExist(x2 + 1, y1)) {
-                board[x1 - 1][y2] = Field.BLOCKED;
+                board[x2 + 1][y1] = Field.BLOCKED;
             }
             if (ifExist(x1 - 1, y1)) {
-                board[x2 + 1][y2] = Field.BLOCKED;
+                board[x1 - 1][y1] = Field.BLOCKED;
             }
         } else {
             throw new RuntimeException("Error! Wrong ship location! Try again:");
         }
+    }
+
+    public boolean isShipSunk(int x, int y) {
+        int points = 1;
+        int length = checkLength(x, y);
+        boolean isHorizontal = checkThePosition(x, y);
+        if (isHorizontal) {
+            for (int i = 1; i <= length; i++) {
+                if (ifExist(x, y + i)) {
+                    if (board[x][y + i] == Field.HIT) {
+                        points = points + 1;
+                    } else if (board[x][y + i] == Field.FREE || board[x][y + i] == Field.MISSED) {
+                        i = length;
+                    }
+                }
+            }
+            for (int k = 1; k <= length; k++) {
+                if (ifExist(x, y - k)) {
+                    if (board[x][y - k] == Field.HIT) {
+                        points = points + 1;
+                    } else if (board[x][y - k] == Field.FREE || board[x][y - k] == Field.MISSED) {
+                        k = length;
+                    }
+                }
+            }
+            return points == length;
+        } else {
+            for (int i = 1; i < length + 1; i++) {
+                if (ifExist(x + i, y)) {
+                    if (board[x + i][y] == Field.HIT) {
+                        points = points + 1;
+                    } else if (board[x + i][y] == Field.FREE || board[x + i][y] == Field.MISSED) {
+                        i = length;
+                    }
+                }
+            }
+            for (int i = 1; i < length + 1; i++) {
+                if (ifExist(x - i, y)) {
+                    if (board[x - i][y] == Field.HIT) {
+                        points = points + 1;
+                    } else if (board[x - i][y] == Field.FREE || board[x - i][y] == Field.MISSED) {
+                        i = length;
+                    }
+                }
+            }
+            return points == length;
+        }
+    }
+
+    private boolean checkThePosition(int x, int y) {
+        boolean isHorizontal = false;
+        if (ifExist(x, y + 1)) {
+            if (board[x][y + 1] == Field.SHIP || board[x][y + 1] == Field.HIT) {
+                isHorizontal = true;
+            }
+        }
+        if (ifExist(x, y - 1)) {
+            if (board[x][y - 1] == Field.SHIP || board[x][y - 1] == Field.HIT) {
+                isHorizontal = true;
+            }
+        }
+        return isHorizontal;
+    }
+
+    private int checkLength(int x, int y) {
+        boolean isHorizontal = checkThePosition(x, y);
+        int length = 1;
+        if (isHorizontal) {
+            for (int i = 1; i < 5; i++) {
+                if (ifExist(x, y + i)) {
+                    if (board[x][y + i] == Field.SHIP || board[x][y + i] == Field.HIT) {
+                        length = length + 1;
+                    }
+                }
+                if (ifExist(x, y - i)) {
+                    if (board[x][y - i] == Field.SHIP || board[x][y - i] == Field.HIT) {
+                        length = length + 1;
+                    }
+                }
+            }
+        } else {
+            for (int i = 1; i < 5; i++) {
+                if (ifExist(x + i, y)) {
+                    if (board[x + i][y] == Field.SHIP || board[x + i][y] == Field.HIT) {
+                        length = length + 1;
+                    }
+                }
+                if (ifExist(x - i, y)) {
+                    if (board[x - i][y] == Field.SHIP || board[x - i][y] == Field.HIT) {
+                        length = length + 1;
+                    }
+                }
+            }
+        }
+        return length;
     }
 }
