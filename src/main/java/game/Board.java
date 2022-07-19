@@ -201,7 +201,6 @@ public class Board {
                     }
                 }
             }
-            return points == length;
         } else {
             for (int i = 1; i < length + 1; i++) {
                 if (ifExist(x + i, y)) {
@@ -221,8 +220,11 @@ public class Board {
                     }
                 }
             }
-            return points == length;
+            if (points == length) {
+                blockFieldsAroundTheSunkenShip(x, y);
+            }
         }
+        return points == length;
     }
 
     private boolean checkThePosition(int x, int y) {
@@ -248,11 +250,17 @@ public class Board {
                 if (ifExist(x, y + i)) {
                     if (board[x][y + i] == Field.SHIP || board[x][y + i] == Field.HIT) {
                         length = length + 1;
+                    } else {
+                        break;
                     }
                 }
+            }
+            for (int i = 1; i < 5; i++) {
                 if (ifExist(x, y - i)) {
                     if (board[x][y - i] == Field.SHIP || board[x][y - i] == Field.HIT) {
                         length = length + 1;
+                    } else {
+                        break;
                     }
                 }
             }
@@ -261,8 +269,12 @@ public class Board {
                 if (ifExist(x + i, y)) {
                     if (board[x + i][y] == Field.SHIP || board[x + i][y] == Field.HIT) {
                         length = length + 1;
+                    } else {
+                        break;
                     }
                 }
+            }
+            for (int i = 1; i < 5; i++) {
                 if (ifExist(x - i, y)) {
                     if (board[x - i][y] == Field.SHIP || board[x - i][y] == Field.HIT) {
                         length = length + 1;
@@ -272,4 +284,107 @@ public class Board {
         }
         return length;
     }
+
+    private void blockFieldsAroundTheSunkenShip(int x, int y) {
+        int length = checkLength(x, y);
+        boolean isHorizontal = checkThePosition(x, y);
+        int down = 0;
+        int up = 0;
+        int right = 0;
+        int left = 0;
+        for (int i = 1; i <= length; i++) {
+            if (ifExist(x, y - i)) {
+                if (getField(x, y - i) == Field.HIT) {
+                    left++;
+                }
+            }
+            if (ifExist(x, y + i)) {
+                if (getField(x, y + i) == Field.HIT) {
+                    right++;
+                }
+            }
+            if (ifExist(x + i, y)) {
+                if (getField(x + i, y) == Field.HIT) {
+                    down++;
+                }
+            }
+            if (ifExist(x - i, y)) {
+                if (getField(x - i, y) == Field.HIT) {
+                    down++;
+                }
+            }
+        }
+        if (isHorizontal) {
+            for (int r = 0; r <= right; r++) {
+                if (ifExist(x - 1, y + r)) {
+                    setField(x - 1, y + r, Field.BLOCKED);
+                }
+                if (ifExist(x + 1, y + r)) {
+                    setField(x + 1, y + r, Field.BLOCKED);
+                }
+            }
+            if (ifExist(x - 1, y + right + 1)) {
+                setField(x - 1, y + right + 1, Field.BLOCKED);
+            }
+            if (ifExist(x + 1, y + right + 1)) {
+                setField(x + 1, y + right + 1, Field.BLOCKED);
+            }
+            if (ifExist(x, y + right + 1)) {
+                setField(x, y + right + 1, Field.BLOCKED);
+            }
+            for (int l = 0; l <= left; l++) {
+                if (ifExist(x - 1, y - l)) {
+                    setField(x - 1, y - l, Field.BLOCKED);
+                }
+                if (ifExist(x + 1, y - l)) {
+                    setField(x + 1, y - l, Field.BLOCKED);
+                }
+            }
+            if (ifExist(x - 1, y - left - 1)) {
+                setField(x - 1, y - left - 1, Field.BLOCKED);
+            }
+            if (ifExist(x, y - left - 1)) {
+                setField(x, y - left - 1, Field.BLOCKED);
+            }
+            if (ifExist(x + 1, y - left - 1)) {
+                setField(x + 1, y - left - 1, Field.BLOCKED);
+            }
+        } else {
+            for (int d = 0; d <= down; d++) {
+                if (ifExist(x + d, y + 1)) {
+                    setField(x + d, y + 1, Field.BLOCKED);
+                }
+                if (ifExist(x + d, y - 1)) {
+                    setField(x - d, y - 1, Field.BLOCKED);
+                }
+            }
+            if (ifExist(x + down + 1, y + 1)) {
+                setField(x - 1, y + down + 1, Field.BLOCKED);
+            }
+            if (ifExist(x + down + 1, y)) {
+                setField(x + 1, y + down + 1, Field.BLOCKED);
+            }
+            if (ifExist(x + down + 1, y - 1)) {
+                setField(x, y + down + 1, Field.BLOCKED);
+            }
+            for (int u = 0; u <= up; u++) {
+                if (ifExist(x - u, y + 1)) {
+                    setField(x - u, y + 1, Field.BLOCKED);
+                }
+                if (ifExist(x - u, y - 1)) {
+                    setField(x - u, y - 1, Field.BLOCKED);
+                }
+            }
+            if (ifExist(x - up - 1, y + 1)) {
+                setField(x - up - 1, y + 1, Field.BLOCKED);
+            }
+            if (ifExist(x - up - 1, y)) {
+                setField(x - up - 1, y, Field.BLOCKED);
+            }
+            if (ifExist(x - up - 1, y - 1)) {
+                setField(x - up - 1, y - 1, Field.BLOCKED);
+            }
+        }
+    }
 }
+

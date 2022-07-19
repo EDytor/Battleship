@@ -6,6 +6,7 @@ import ships.ShipFactory;
 import utils.Field;
 import utils.Pair;
 
+import static game.Engine.engine;
 import static game.Engine.scanner;
 
 public class Player {
@@ -70,6 +71,7 @@ public class Player {
         Coordinates coordinates = inputCoordinateHandler.returnCoordinates();
         int x = coordinates.x.getValue();
         int y = coordinates.y.getValue();
+        engine.cleaningConsole();
         if (board.getField(x, y) == Field.SHIP) {
             board.setField(x, y, Field.HIT);
             System.out.println("You hit a ship!");

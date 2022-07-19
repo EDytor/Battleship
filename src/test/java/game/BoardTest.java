@@ -2,10 +2,8 @@ package game;
 
 import coordinates.Column;
 import coordinates.Coordinates;
-import coordinates.InputCoordinateHandler;
 import coordinates.Row;
 import org.junit.jupiter.api.Test;
-import utils.ConsoleReader;
 import utils.Field;
 import utils.Pair;
 
@@ -44,6 +42,7 @@ class BoardTest {
         board.setField(10, 1, Field.HIT);
         board.setField(10, 2, Field.HIT);
         board.setField(10, 3, Field.HIT);
+        board.setField(10,5,Field.SHIP);
         // Then
         assertTrue(board.isShipSunk(10,3));
     }
