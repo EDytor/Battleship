@@ -49,12 +49,12 @@ public class Engine {
         boardOfSecondPlayer.showTheFleet();
         player2.putShipsAtSea(boardOfSecondPlayer);
         engine.cleaningConsole();
-        for (; ; ) {
+        while (true) {
             engine.takeAShot(player1, boardOfFirstPlayer, boardOfSecondPlayer, 1);
             System.out.println("Your board:");
             System.out.println();
             boardOfFirstPlayer.printingBoard();
-            if (engine.checkWinner()) {
+            if (engine.areAllShipsSunk()) {
                 break;
             } else {
                 System.out.println("------------------------------------------------------------------");
@@ -66,7 +66,7 @@ public class Engine {
             System.out.println("Your board:");
             System.out.println();
             boardOfSecondPlayer.printingBoard();
-            if (engine.checkWinner()) {
+            if (engine.areAllShipsSunk()) {
                 break;
             } else {
                 System.out.println("------------------------------------------------------------------");
@@ -85,9 +85,9 @@ public class Engine {
         player1.putShipsAtSea(boardOfFirstPlayer);
         computer.deployFleet(boardOfComputer);
         engine.cleaningConsole();
-        for (; ; ) {
+        while (true) {
             engine.takeAShot(player1, boardOfFirstPlayer, boardOfComputer, 1);
-            if (engine.checkWinner()) {
+            if (engine.areAllShipsSunk()) {
                 break;
             } else {
                 System.out.println("------------------------------------------------------------------");
@@ -98,7 +98,7 @@ public class Engine {
             System.out.println("Your enemy's turn!");
             System.out.println();
             boardOfFirstPlayer.printingBoard();
-            if (engine.checkWinner()) {
+            if (engine.areAllShipsSunk()) {
                 break;
             } else {
                 System.out.println("------------------------------------------------------------------");
@@ -117,11 +117,11 @@ public class Engine {
         System.out.println();
         player.shot(yourEnemyBoard);
         System.out.println();
-        yourEnemyBoard.printingBoard();
+        yourEnemyBoard.showTheFleet();
         System.out.println();
     }
 
-    private boolean checkWinner() {
+    private boolean areAllShipsSunk() {
         if (player1.shipsToSink == 0 || player2.shipsToSink == 0) {
             System.out.println();
             System.out.println("You sank the last ship. You won. Congratulations!");

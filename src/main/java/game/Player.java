@@ -1,5 +1,6 @@
 package game;
 
+import coordinates.CoordinateException;
 import coordinates.Coordinates;
 import coordinates.InputCoordinateHandler;
 import ships.ShipFactory;
@@ -28,7 +29,7 @@ public class Player {
         System.out.println();
         Pair<Coordinates> pair;
         for (i = 0; i < shipsToDeploy; ) {
-            pair = inputCoordinateHandler.pairOfCoordinates();
+            pair = handleUserInput();
             if (makeShip(pair, namesOfShips[i])) {
                 if (checkTheSea(pair, board)) {
                     board.showTheFleet();
@@ -43,6 +44,15 @@ public class Player {
         }
         System.out.println("Press Enter and pass the move to another player");
         scanner.nextLine();
+    }
+
+    private Pair<Coordinates> handleUserInput() {
+        try {
+            return inputCoordinateHandler.readPairOfCoordinates();
+        } catch (CoordinateException e) {
+            System.out.println("Error! Wrong ship location! Try again:");
+            return handleUserInput();
+        }
     }
 
     private boolean makeShip(Pair<Coordinates> pair, String namesOfShips) {
@@ -68,7 +78,8 @@ public class Player {
     }
 
     public void shot(Board board) {
-        Coordinates coordinates = inputCoordinateHandler.returnCoordinates();
+        Coordinates coordinates;
+        coordinates = handle();
         int x = coordinates.x.getValue();
         int y = coordinates.y.getValue();
         engine.cleaningConsole();
@@ -88,4 +99,14 @@ public class Player {
         } else if (board.getField(x, y) == Field.HIT || board.getField(x, y) == Field.MISSED) {
             System.out.println("You've already shot here!");
         }
-    }}
+    }
+
+    private Coordinates handle() {
+        try {
+            return inputCoordinateHandler.readSingleCoordinate();
+        } catch (CoordinateException e) {
+            System.out.println("Error! Wrong ship location! Try again:");
+            return handle();
+        }
+    }
+}

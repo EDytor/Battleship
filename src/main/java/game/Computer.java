@@ -3,23 +3,25 @@ package game;
 import utils.Field;
 import utils.Pair;
 
+import java.util.Optional;
 import java.util.Random;
 
 public class Computer {
 
+    final int size = 11;
     int shipsToDeploy = 5;
     int shipsToSink = 5;
     Random random = new Random();
 
-    protected int randomizeTheNumber() {
-        int number = random.nextInt(11);
+    private int randomizeTheNumber() {
+        int number = random.nextInt(size);
         if (number == 0) {
             number = randomizeTheNumber();
         }
         return number;
     }
 
-    private String checkTheDirection(int length, Board board, int x, int y) {
+    private int checkThePossibleDirection(int length, Board board, int x, int y) {
         boolean isCorrect = true;
         for (int i = 0; i < length; i++) {
             if (!board.ifExist(x, y + i) || board.getField(x, y + i) != Field.FREE) {
@@ -27,7 +29,7 @@ public class Computer {
             }
         }
         if (isCorrect) {
-            return "HorizontallyRight";
+            return 1;
         } else {
             isCorrect = true;
         }
@@ -37,7 +39,7 @@ public class Computer {
             }
         }
         if (isCorrect) {
-            return "HorizontallyLeft";
+            return 2;
         } else {
             isCorrect = true;
         }
@@ -47,7 +49,7 @@ public class Computer {
             }
         }
         if (isCorrect) {
-            return "VerticallyDown";
+            return 3;
         } else {
             isCorrect = true;
         }
@@ -57,134 +59,35 @@ public class Computer {
             }
         }
         if (isCorrect) {
-            return "VerticallyUp";
+            return 4;
         }
-
-        return "Unknown!";
+        return 5;
     }
 
     private void deployShip(int length, Board board, int x, int y) {
-        String direction = checkTheDirection(length, board, x, y);
-        switch (direction) {
-            case "HorizontallyRight":
-                for (int i = 0; i < length; i++) {
-                    board.setField(x, y + i, Field.SHIP);
-                    if (board.ifExist(x + 1, y + i)) {
-                        board.setField(x + 1, y + i, Field.BLOCKED);
-                    }
-                    if (board.ifExist(x - 1, y + i)) {
-                        board.setField(x - 1, y + i, Field.BLOCKED);
-                    }
-                }
-                if (board.ifExist(x - 1, y + length)) {
-                    board.setField(x - 1, y + length, Field.BLOCKED);
-                }
-                if (board.ifExist(x + 1, y + length)) {
-                    board.setField(x + 1, y + length, Field.BLOCKED);
-                }
-                if (board.ifExist(x - 1, y - 1)) {
-                    board.setField(x - 1, y - 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x + 1, y - 1)) {
-                    board.setField(x + 1, y - 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x, y - 1)) {
-                    board.setField(x, y - 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x, y + length)) {
-                    board.setField(x, y + length, Field.BLOCKED);
-                }
-                break;
-            case "HorizontallyLeft":
-                for (int i = 0; i < length; i++) {
-                    board.setField(x, y - i, Field.SHIP);
-                    if (board.ifExist(x - 1, y - i)) {
-                        board.setField(x - 1, y - i, Field.BLOCKED);
-                    }
-                    if (board.ifExist(x + 1, y - i)) {
-                        board.setField(x + 1, y - i, Field.BLOCKED);
-                    }
-                }
-                if (board.ifExist(x, y + 1)) {
-                    board.setField(x, y + 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x, y - length)) {
-                    board.setField(x, y - length, Field.BLOCKED);
-                }
-                if (board.ifExist(x + 1, y + 1)) {
-                    board.setField(x + 1, y + 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x + 1, y - length)) {
-                    board.setField(x + 1, y - length, Field.BLOCKED);
-                }
-                if (board.ifExist(x - 1, y + 1)) {
-                    board.setField(x - 1, y + 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x - 1, y - length)) {
-                    board.setField(x - 1, y - length, Field.BLOCKED);
-                }
-                break;
-            case "VerticallyDown":
-                for (int i = 0; i < length; i++) {
-                    board.setField(x + i, y, Field.SHIP);
-                    if (board.ifExist(x + i, y + 1)) {
-                        board.setField(x + i, y + 1, Field.BLOCKED);
-                    }
-                    if (board.ifExist(x + i, y - 1)) {
-
-                        board.setField(x + i, y - 1, Field.BLOCKED);
-                    }
-                }
-                if (board.ifExist(x - 1, y)) {
-                    board.setField(x - 1, y, Field.BLOCKED);
-                }
-                if (board.ifExist(x + length, y)) {
-                    board.setField(x + length, y, Field.BLOCKED);
-                }
-                if (board.ifExist(x - 1, y + 1)) {
-                    board.setField(x - 1, y + 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x - 1, y - 1)) {
-                    board.setField(x - 1, y - 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x + length, y + 1)) {
-                    board.setField(x + length, y + 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x + length, y - 1)) {
-                    board.setField(x + length, y - 1, Field.BLOCKED);
-                }
-                break;
-            case "VerticallyUp":
-                for (int i = 0; i < length; i++) {
-                    board.setField(x - i, y, Field.SHIP);
-                    if (board.ifExist(x - i, y + 1)) {
-                        board.setField(x - i, y + 1, Field.BLOCKED);
-                    }
-                    if (board.ifExist(x - i, y - 1)) {
-                        board.setField(x - i, y - 1, Field.BLOCKED);
-                    }
-                }
-                if (board.ifExist(x + 1, y)) {
-                    board.setField(x + 1, y, Field.BLOCKED);
-                }
-                if (board.ifExist(x - length, y)) {
-                    board.setField(x - length, y, Field.BLOCKED);
-                }
-                if (board.ifExist(x + 1, y + 1)) {
-                    board.setField(x + 1, y + 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x + 1, y - 1)) {
-                    board.setField(x + 1, y - 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x - length, y + 1)) {
-                    board.setField(x - length, y + 1, Field.BLOCKED);
-                }
-                if (board.ifExist(x - length, y - 1)) {
-                    board.setField(x - length, y - 1, Field.BLOCKED);
-                }
-                break;
-            default:
-                throw new NullPointerException();
+        int direction = checkThePossibleDirection(length, board, x, y);
+        if (direction == 1) {
+            for (int i = 0; i < length; i++) {
+                board.setField(x, y + i, Field.SHIP);
+            }
+            board.blockFieldsAroundTheShip(x, y);
+        } else if (direction == 2) {
+            for (int i = 0; i < length; i++) {
+                board.setField(x, y - i, Field.SHIP);
+            }
+            board.blockFieldsAroundTheShip(x, y);
+        } else if (direction == 3) {
+            for (int i = 0; i < length; i++) {
+                board.setField(x + i, y, Field.SHIP);
+            }
+            board.blockFieldsAroundTheShip(x, y);
+        } else if (direction == 4) {
+            for (int i = 0; i < length; i++) {
+                board.setField(x - i, y, Field.SHIP);
+            }
+            board.blockFieldsAroundTheShip(x, y);
+        } else {
+            throw new NullPointerException();
         }
     }
 
@@ -203,62 +106,61 @@ public class Computer {
         }
     }
 
-    private Pair<Integer> checkFields(Board board) {
-        for (int i = 1; i < 11; i++) {
-            for (int j = 1; j < 11; j++) {
+    private Optional<Pair<Integer>> selectFieldToShot(Board board) {
+        for (int i = 1; i < size; i++) {
+            for (int j = 1; j < size; j++) {
                 if (board.getField(i, j) == Field.HIT) {
                     if (board.ifExist(i, j + 1)) {
                         if (board.getField(i, j + 1) != Field.MISSED && board.getField(i, j + 1) != Field.HIT && board.getField(i, j + 1) != Field.BLOCKED) {
-                            return new Pair<>(i, j + 1);
+                            return Optional.of(new Pair<>(i, j + 1));
                         } else if (board.getField(i, j + 1) == Field.HIT) {
                             if (board.ifExist(i, j + 2) && board.getField(i, j + 2) != Field.HIT && board.getField(i, j + 2) != Field.MISSED && board.getField(i, j + 2) != Field.BLOCKED) {
-                                return new Pair<>(i, j + 2);
+                                return Optional.of(new Pair<>(i, j + 2));
                             }
                         }
                     }
                     if (board.ifExist(i, j - 1)) {
                         if (board.getField(i, j - 1) != Field.MISSED && board.getField(i, j - 1) != Field.HIT && board.getField(i, j - 1) != Field.BLOCKED) {
-                            return new Pair<>(i, j - 1);
+                            return Optional.of(new Pair<>(i, j - 1));
                         } else if (board.getField(i, j - 1) == Field.HIT) {
                             if (board.ifExist(i, j - 2) && board.getField(i, j - 2) != Field.HIT && board.getField(i, j - 2) != Field.MISSED && board.getField(i, j - 2) != Field.BLOCKED) {
-                                return new Pair<>(i, j - 2);
+                                return Optional.of(new Pair<>(i, j - 2));
                             }
                         }
                     }
                     if (board.ifExist(i + 1, j)) {
                         if (board.getField(i + 1, j) != Field.MISSED && board.getField(i + 1, j) != Field.HIT && board.getField(i + 1, j) != Field.BLOCKED) {
-                            return new Pair<>(i + 1, j);
+                            return Optional.of(new Pair<>(i + 1, j));
                         } else if (board.getField(i + 1, j) == Field.HIT) {
                             if (board.ifExist(i + 2, j) && board.getField(i + 2, j) != Field.HIT && board.getField(i + 2, j) != Field.MISSED && board.getField(i + 2, j) != Field.BLOCKED) {
-                                return new Pair<>(i + 2, j);
+                                return Optional.of(new Pair<>(i + 2, j));
                             }
                         }
                     }
                     if (board.ifExist(i - 1, j)) {
                         if (board.getField(i - 1, j) != Field.MISSED && board.getField(i - 1, j) != Field.HIT && board.getField(i - 1, j) != Field.BLOCKED) {
-                            return new Pair<>(i - 1, j);
+                            return Optional.of(new Pair<>(i - 1, j));
                         } else if (board.getField(i - 1, j) == Field.HIT) {
                             if (board.ifExist(i - 2, j) && board.getField(i - 2, j) != Field.HIT && board.getField(i - 2, j) != Field.MISSED && board.getField(i - 2, j) != Field.BLOCKED) {
-                                return new Pair<>(i - 2, j);
+                                return Optional.of(new Pair<>(i - 2, j));
                             }
                         }
                     }
                 }
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public void computerShot(Board board) {
-        Pair<Integer> pair = checkFields(board);
         int x;
         int y;
-        if (pair == null) {
+        if (selectFieldToShot(board).isPresent()) {
+            x = selectFieldToShot(board).get().getFirstElement();
+            y = selectFieldToShot(board).get().getSecondElement();
+        } else {
             x = randomizeTheNumber();
             y = randomizeTheNumber();
-        } else {
-            x = pair.getFirstElement();
-            y = pair.getSecondElement();
         }
         if (board.getField(x, y) == Field.SHIP) {
             board.setField(x, y, Field.HIT);

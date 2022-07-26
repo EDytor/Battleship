@@ -11,33 +11,26 @@ public class InputCoordinateHandler {
         this.consoleReader = consoleReader;
     }
 
-    protected Coordinates prepareCoordinates(String input) {
-        try {
+    Coordinates prepareCoordinates(String input) throws CoordinateException {
             input = input.replace(" ", "");
             input = input.toUpperCase();
+        try {
             Row row = Row.valueOf(input.substring(0, 1));
             Column column = new Column(Integer.parseInt(input.substring(1)));
             return new Coordinates(row, column);
-        } catch (Throwable e) {
-            return null;
+        } catch (RuntimeException e) {
+            throw new CoordinateException("User input was incorrect!", e);
         }
     }
 
-    public Coordinates returnCoordinates() {
+    public Coordinates readSingleCoordinate() throws CoordinateException {
         String input = consoleReader.readUserInput();
-        Coordinates coordinates = prepareCoordinates(input);
-        if (coordinates == null) {
-            System.out.println();
-            System.out.println("Error! Wrong ship location! Try again:");
-            return returnCoordinates();
-        } else {
-            return coordinates;
-        }
+        return prepareCoordinates(input);
     }
 
-    public Pair<Coordinates> pairOfCoordinates() {
-        Coordinates coordinates1 = returnCoordinates();
-        Coordinates coordinates2 = returnCoordinates();
+    public Pair<Coordinates> readPairOfCoordinates() throws CoordinateException {
+        Coordinates coordinates1 = readSingleCoordinate();
+        Coordinates coordinates2 = readSingleCoordinate();
         return new Pair<>(coordinates1, coordinates2);
     }
 }

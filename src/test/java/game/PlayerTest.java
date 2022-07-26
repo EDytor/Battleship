@@ -1,9 +1,6 @@
 package game;
 
-import coordinates.Column;
-import coordinates.Coordinates;
-import coordinates.InputCoordinateHandler;
-import coordinates.Row;
+import coordinates.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -19,10 +16,10 @@ class PlayerTest {
 
     @ParameterizedTest
     @MethodSource("shotParametersProvider")
-    void shot_test(Coordinates shotCoordinates, Field field) {
+    void shot_test(Coordinates shotCoordinates, Field field) throws CoordinateException {
         //Given
         InputCoordinateHandler mockInputCoordinatesHandler = mock(InputCoordinateHandler.class);
-        when(mockInputCoordinatesHandler.returnCoordinates()).thenReturn(shotCoordinates);
+        when(mockInputCoordinatesHandler.readSingleCoordinate()).thenReturn(shotCoordinates);
         Player player = new Player(mockInputCoordinatesHandler);
         Board board = new Board();
         Pair<Coordinates> pair = new Pair<>(new Coordinates(Row.G, new Column(2)), new Coordinates(Row.G, new Column(4)));
