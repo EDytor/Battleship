@@ -50,10 +50,10 @@ public class Engine {
         player2.putShipsAtSea(boardOfSecondPlayer);
         engine.cleaningConsole();
         while (true) {
-            engine.takeAShot(player1, boardOfFirstPlayer, boardOfSecondPlayer, 1);
+            engine.takeAShot(player1, boardOfSecondPlayer, 1);
             System.out.println("Your board:");
             System.out.println();
-            boardOfFirstPlayer.printingBoard();
+            boardOfFirstPlayer.showTheFleet();
             if (engine.areAllShipsSunk()) {
                 break;
             } else {
@@ -62,10 +62,10 @@ public class Engine {
                 scanner.nextLine();
             }
             engine.cleaningConsole();
-            engine.takeAShot(player2, boardOfSecondPlayer, boardOfFirstPlayer, 2);
+            engine.takeAShot(player2, boardOfFirstPlayer, 2);
             System.out.println("Your board:");
             System.out.println();
-            boardOfSecondPlayer.printingBoard();
+            boardOfSecondPlayer.showTheFleet();
             if (engine.areAllShipsSunk()) {
                 break;
             } else {
@@ -86,7 +86,7 @@ public class Engine {
         computer.deployFleet(boardOfComputer);
         engine.cleaningConsole();
         while (true) {
-            engine.takeAShot(player1, boardOfFirstPlayer, boardOfComputer, 1);
+            engine.takeAShot(player1, boardOfComputer, 1);
             if (engine.areAllShipsSunk()) {
                 break;
             } else {
@@ -97,7 +97,7 @@ public class Engine {
             computer.computerShot(boardOfFirstPlayer);
             System.out.println("Your enemy's turn!");
             System.out.println();
-            boardOfFirstPlayer.printingBoard();
+            boardOfFirstPlayer.showTheFleet();
             if (engine.areAllShipsSunk()) {
                 break;
             } else {
@@ -109,7 +109,7 @@ public class Engine {
         }
     }
 
-    private void takeAShot(Player player, Board yourBoard, Board yourEnemyBoard, int numberOfPlayer) {
+    private void takeAShot(Player player, Board yourEnemyBoard, int numberOfPlayer) {
         yourEnemyBoard.printingBoard();
         System.out.println();
         System.out.println("Player " + numberOfPlayer + ", it's your turn: ");
@@ -117,7 +117,7 @@ public class Engine {
         System.out.println();
         player.shot(yourEnemyBoard);
         System.out.println();
-        yourEnemyBoard.showTheFleet();
+        yourEnemyBoard.printingBoard();
         System.out.println();
     }
 

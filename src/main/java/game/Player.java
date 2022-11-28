@@ -27,6 +27,7 @@ public class Player {
         System.out.println();
         System.out.printf("Enter the coordinates of the %s (%d cells):%n", namesOfShips[i], shipsLength[i]);
         System.out.println();
+        System.out.println("For example: 'A1' click ENTER 'A5'");
         Pair<Coordinates> pair;
         for (i = 0; i < shipsToDeploy; ) {
             pair = handleUserInput();
