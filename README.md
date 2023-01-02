@@ -1,26 +1,22 @@
 # Battleship
 A digital version of the classic ship game.
 Originally played on sheets of paper between two players. 
+The application has been extended with the ability to play against the computer.
 
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
-* [Setup](#setup)
 * [Game rules](#game-rules)
 
 ## General info
-The application has been extended with the ability to play against the computer.
-	
+Writing this application allowed me to understand the principles of object-oriented Java and I learned how to write unit tests.
+
 ## Technologies
 Project is created with:
 * Java
 * JUnit
-	
-## Setup
-To run this project, install it locally and run in IntelliJ IDEA.
 
 ## Game rules
-
 The game of ships consists in guessing in which fields the enemy has hidden his warships before he destroys our ships. 
 At the beginning of the game, each player has several ships of different lengths and places them on the board. 
 Each player places ships on his board and targets the spaces on his opponent's board.
