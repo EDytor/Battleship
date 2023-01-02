@@ -1,5 +1,7 @@
 package coordinates;
 
+import java.util.Objects;
+
 import static java.lang.Math.abs;
 
 public class Coordinates {
@@ -25,5 +27,18 @@ public class Coordinates {
             throw new RuntimeException("Error! Wrong ship location! Try again:");
         }
         return distance;
+    }
+
+    @Override
+    public boolean equals(Object coordinate) {
+        if (this == coordinate) return true;
+        if (coordinate == null || getClass() != coordinate.getClass()) return false;
+        Coordinates that = (Coordinates) coordinate;
+        return x == that.x && y.equals(that.y);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

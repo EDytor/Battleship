@@ -18,7 +18,7 @@ public class ShipFactory {
             case "Aircraft Carrier":
                 return new Aircraft(pairOfCoords.getFirstElement(), pairOfCoords.getSecondElement());
             default:
-                throw new RuntimeException("Incorrect ship details");
+                throw new RuntimeException("Incorrect ship name");
         }
     }
 }
