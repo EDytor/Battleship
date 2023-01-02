@@ -1,4 +1,4 @@
-# Battleship
+# ⚓ Battleship
 A digital version of the classic ship game.
 Originally played on sheets of paper between two players. 
 The application has been extended with the ability to play against the computer.
