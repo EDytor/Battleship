@@ -14,7 +14,7 @@ Writing this application allowed me to understand the principles of object-orien
 ## Technologies
 Project is created with:
 * Java
-* JUnit
+* JUnit5
 
 ## Game rules
 The game of ships consists in guessing in which fields the enemy has hidden his warships before he destroys our ships. 
